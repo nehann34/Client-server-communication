@@ -12,6 +12,11 @@ def length_to_three(size)
     size='0'*(3-len(size))+ size
     return size
 
+#receive messages from server
+def rec_msg_fromserver(server_sock):
+    msg_size= int(recv_whole_size(server_sock, 3).decode("utf-8"))
+    message = rec_whole_size(server_sock,msg_size).decode("utf-8")
+    print(message)
 
 print("Hi,I'm client")
 user= input("Please enter username:")

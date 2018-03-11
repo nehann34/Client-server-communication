@@ -26,3 +26,15 @@ print("socket created")
 print("connecting to server.....")
 s.connect(('192.168.43.50',6565))
 print("Now you are connected to server,Start the communication.")
+
+
+t = threading.Thread(target = rec_msg_fromserver, args=[s])
+t.start()
+
+while True :
+      message = username + ":" + input()
+      size = toThree( str(len(message)) )
+      message = (size + message).encode('utf-8')
+      s.sendall(message)
+
+

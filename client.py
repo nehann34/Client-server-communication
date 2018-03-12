@@ -1,6 +1,5 @@
 import socket
 import threading
-
 def rec_whole_size(sock,size):
     r=0
     array= bytes()
@@ -15,20 +14,20 @@ def length_to_seven(size):
 
 #receive messages from server
 def rec_msg_fromserver(server_sock):
-    msg_size= int(rec_whole_size(server_sock, 7).decode("utf-8"))
-    message = rec_whole_size(server_sock,msg_size)   
-    if 'file: '.encode('utf-8') in message:
-        p=message.strip('file: '.encode('utf-8'))
-        file_to_write = open('xyz.txt', 'wb')
-        file_to_write.write(p)
-        file_to_write.close()
-        print ('File received successfully')
-    else:
-        print(message)
+    while True:
+          msg_size= int(rec_whole_size(server_sock, 7).decode("utf-8"))
+          message = rec_whole_size(server_sock,msg_size)   
+          if 'file: '.encode('utf-8') in message:
+             p=message.strip('file: '.encode('utf-8'))
+             file_to_write = open('xyz.txt', 'wb')
+             file_to_write.write(p)
+             file_to_write.close()
+             print ('File received successfully')
+          else:
+             print(message.decode('utf-8'))
       
 
 print("Hi,I'm client")
-
 username= input("Username:")
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print("socket created")

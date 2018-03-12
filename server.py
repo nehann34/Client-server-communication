@@ -2,7 +2,6 @@ import socket
 import threading
 import queue
 
-
 q_list=[]
 q_list_lock=threading.Lock()
 
@@ -17,7 +16,6 @@ def rec_whole_size(sock, size):
 
 def send_to_client(my_q,client_sock):
     while True:
-
            
           message=my_q.get()
      
@@ -25,14 +23,14 @@ def send_to_client(my_q,client_sock):
           
 
 def rec_from_client(my_q,client_sock):
-    
-       message_size = rec_whole_size(client_sock, 7)
-       int_message_size = int(message_size.decode('utf-8'))
-       #p_msg_size=str(int_message_size - 6)
-       message = rec_whole_size(client_sock, int_message_size)
-       #p=message.strip('file: '.encode('utf-8'))
-       while True:
-            if 'file: '.encode('utf-8') in message:
+    while True:
+          message_size = rec_whole_size(client_sock, 7)
+          int_message_size = int(message_size.decode('utf-8'))
+          #p_msg_size=str(int_message_size - 6)
+          message = rec_whole_size(client_sock, int_message_size)
+          #p=message.strip('file: '.encode('utf-8'))
+       
+          if 'file: '.encode('utf-8') in message:
           
                 with q_list_lock:
                      for q in q_list:
@@ -41,7 +39,7 @@ def rec_from_client(my_q,client_sock):
                          else :
                             q.put(message_size+ message)
                      
-            else:
+          else:
           
                 print("Client",message.decode('utf-8'))
                 with q_list_lock:

@@ -17,6 +17,7 @@ def rec_whole_size(sock, size):
 
 def send_to_client(my_q,client_sock):
     while True:
+
            
           message=my_q.get()
      

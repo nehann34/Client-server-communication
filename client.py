@@ -28,6 +28,7 @@ def rec_msg_fromserver(server_sock):
       
 
 print("Hi,I'm client")
+
 username= input("Username:")
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print("socket created")

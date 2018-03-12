@@ -8,8 +8,8 @@ def rec_whole_size(sock,size):
           r=len(array)
     return array
 
-def length_to_three(size):
-    size='0'*(3-len(size))+ size
+def length_to_seven(size):
+    size='0'*(7-len(size))+ size
     return size
 
 #receive messages from server
@@ -24,14 +24,34 @@ username= input("Username:")
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print("socket created")
 print("connecting to server.....")
-s.connect(('192.168.43.50',6333))
+s.connect(('192.168.43.50',4901))
 print("Now you are connected to server,Start the communication.")
 
 t = threading.Thread(target = rec_msg_fromserver, args=[s])
 t.start()
 
 while True :
-      message =username + ' sent : '+input()
-      size = length_to_three(str(len(message)) )
-      message = (size + message).encode("utf-8")
-      s.sendall(message)
+      msg=input()
+      
+      if 'sending /' in msg:
+          l1=[]
+          l1=msg.split(' ')
+          length=len(l1)
+          m=l1[length-1]
+          file_to_send = open(m, 'rb') 
+          l = file_to_send.read()
+          
+          ap='file: '.encode('utf-8') + l
+          size = length_to_seven(str(len(ap))).encode('utf-8')
+          ap = size + ap
+          s.sendall(ap)
+          file_to_send.close()
+          s.sendall(('File Sent by '+ username).encode('utf-8'))
+          s.close()
+      
+      else :
+ 
+          message =username + ' sent : '+ msg
+          size = length_to_three(str(len(message)) )
+          message = (size + message).encode("utf-8")
+          s.sendall(message)

@@ -1,5 +1,6 @@
 import socket
 import threading
+
 def rec_whole_size(sock,size):
     r=0
     array= bytes()
